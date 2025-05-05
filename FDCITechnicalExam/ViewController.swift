@@ -51,7 +51,7 @@ class ViewController: UIViewController {
 
         setupTextFields()
         setupPickers()
-//        setupButtons()
+        setupButtons()
     }
 
     func setupTextFields() {
@@ -76,7 +76,6 @@ class ViewController: UIViewController {
         countryField.translatesAutoresizingMaskIntoConstraints = false
         countryField.borderStyle = .roundedRect
         
-        
         view.addSubview(nameLabel)
         view.addSubview(nameField)
         view.addSubview(regionLabel)
@@ -89,7 +88,7 @@ class ViewController: UIViewController {
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            nameField.topAnchor.constraint(equalTo: nameLabel.safeAreaLayoutGuide.topAnchor, constant: 40),
+            nameField.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             nameField.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor, constant: 0),
             nameField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             nameField.heightAnchor.constraint(equalToConstant: 55),
@@ -144,22 +143,24 @@ class ViewController: UIViewController {
         submitButton.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
         clearButton.addTarget(self, action: #selector(handleClear), for: .touchUpInside)
         
-
         NSLayoutConstraint.activate([
-            submitButton.topAnchor.constraint(equalTo: countryField.bottomAnchor, constant: 50),
+            submitButton.topAnchor.constraint(equalTo: countryField.bottomAnchor, constant: 20),
             submitButton.leadingAnchor.constraint(equalTo: nameField.leadingAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: 55),
-            
+
             clearButton.topAnchor.constraint(equalTo: submitButton.topAnchor),
             clearButton.leadingAnchor.constraint(equalTo: submitButton.trailingAnchor, constant: 10),
             clearButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             clearButton.heightAnchor.constraint(equalToConstant: 55),
+            
+            clearButton.widthAnchor.constraint(equalTo: submitButton.widthAnchor),
+            clearButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
+
     }
 
     func createToolbar(selector: Selector) -> UIToolbar {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: selector)
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([space, doneButton], animated: false)
@@ -174,7 +175,6 @@ class ViewController: UIViewController {
         else {
             return
         }
-        
     }
     
     @objc func handleClear() {
